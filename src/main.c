@@ -43,8 +43,22 @@ int main() {
             last_second = current_time;
         }
 
-        // Render
-        // ...
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        mat4x4 view, projection;
+        mat4x4_look_at(view, (vec3){0, 2, 5}, (vec3){0, 0, 0}, (vec3){0, 1, 0});
+        mat4x4_perspective(projection, 45.0f, (float)width / (float)height, 0.1f, 100.0f);
+
+        GLint view_loc = glGetUniformLocation(shader, "view");
+        glUniformMatrix4fv(view_loc, 1, GL_FALSE, (float *)view);
+
+        GLint projection_loc = glGetUniformLocation(shader, "projection");
+        glUniformMatrix4fv(projection_loc, 1, GL_FALSE, (float *)projection);
+
+        // Render...
 
         glfwSwapBuffers(window);
         glfwPollEvents();
