@@ -8,9 +8,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#define GL_SILENCE_DEPRECATION
-#define GLFW_INCLUDE_GLCOREARB
-#include <GLFW/glfw3.h>
+#define ENGINE_INCLUDES
+#include "shader.h"
 
 GLFWwindow *window;
 
@@ -24,6 +23,9 @@ int main() {
 
     double time_elapsed = 0, last_second = 0;
     int frames = 0;
+
+    int shader = load_shader("shaders/vertex.glsl", "shaders/fragment.glsl");
+    glUseProgram(shader);
 
     while (!glfwWindowShouldClose(window)) {
         double current_time = glfwGetTime();
