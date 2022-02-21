@@ -88,14 +88,12 @@ int main() {
     int shader = load_shader("shaders/vertex.glsl", "shaders/fragment.glsl");
     glUseProgram(shader);
 
-    int width = 200;
-    int height = 200;
+    int width = 800;
+    int height = 600;
 
     srand(0);
 
-    float noise[width * height];
-    memset(noise, 0, sizeof(noise));
-
+    float *noise = malloc(width * height * sizeof(float));
     generate_perlin_noise(noise, width, height, 8);
 
     unsigned int texture;
@@ -105,6 +103,8 @@ int main() {
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_FLOAT, noise);
     glGenerateMipmap(GL_TEXTURE_2D);
+
+    free(noise);
 
     while (!glfwWindowShouldClose(window)) {
         double current_time = glfwGetTime();
